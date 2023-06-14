@@ -1,6 +1,23 @@
-p, h2, h4 {
+  p{
     color: green;
-    width: 600px;
-    border: 2px solid blue;
   }
+
+  html {
+    font-size: 20px; /* px means "pixels": the base font size is now 10 pixels high */
+    font-family: 'Lato', sans-serif; /* this should be the rest of the output you got from Google Fonts */
+  }
+
+  h1 {
+    font-size: 60px;
+    text-align: center;
+    border: 1px solid brown;
+  }
+  
+  p,
+  li {
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 1px;
+  }
+  
   
