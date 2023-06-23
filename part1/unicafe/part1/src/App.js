@@ -2,35 +2,38 @@ import { useState } from 'react'
 
 const Display = props => <h1>{props.value}</h1>
 
-/*const Button = (props) => (
+const Button = (props) => (
   <button onClick={props.handleClick}>
     {props.text}
-  </button>
-)*/
+  </button> 
+)
 
-const Statistics = (props) =>{
-  let average = (1*props.g + 0*props.n + (-1)*props.b)/props.size
-  console.log('average rating:', average)
-  let pos = (props.g)/props.size
-  console.log('% of positive ratings:', pos)
+const StatisticLine = (props)=>{
   let res = ''
-  if(props.g>0 || props.n>0 || props.g>0){
-    res = (
-      <div>
-        <p>good {props.g}</p>
-        <p>neutral {props.n}</p>
-        <p>bad {props.b}</p>
-        <p>all {props.g + props.b + props.n}</p>
-        <p>average {average}</p>
-        <p>positive {pos*100} %</p>
-      </div>
-    )
+  let text = props.text
+  if(text==='good'){
+    res = <p>good {props.value}</p>
   }
-  else{
-    res = <h2>No feedback given</h2>
+  else if(text==='neutral'){
+    res = <p>neutral {props.value}</p>
   }
-  return res
+  else if(text==='bad'){
+    res = <p>bad {props.value}</p>
+  }
+  else if(text==='all'){
+    res = <p>all {props.value}</p>
+  }
+  else if(text==='average'){
+    res = <p>average {props.value}</p>
+  }
+  else if(text==='positive'){
+    res = <p>positive {props.value} %</p>
+  }
+  return(
+    <div>{res}</div>
+  )
 }
+
 
 const App = () => {
   // save clicks of each button to its own state
@@ -60,12 +63,19 @@ const App = () => {
   return (
     <div>
       <Display value = 'give feedback'/>
-      <button onClick={handleGood}>good</button>
-      <button onClick={handleNeutral}>neutral</button>
-      <button onClick={handleBad}>bad</button>
+      <Button handleClick={handleGood} text='good'/>
+      <Button handleClick={handleNeutral} text='neutral'/>
+      <Button handleClick={handleBad} text='bad'/>
 
       <Display value = 'statistics'/>
-      <Statistics g={good} n={neutral} b={bad} size={good+neutral+bad}/>
+
+      <StatisticLine text='good' value={good}/>
+      <StatisticLine text='neutral' value={neutral}/>
+      <StatisticLine text='bad' value={bad}/>
+      <StatisticLine text='all' value={good+bad+neutral}/>
+      <StatisticLine text='average' value={ (1*good + bad*-1)/(good+bad+neutral) }/>
+      <StatisticLine text='positive' value={ good/(good+bad+neutral) }/>
+
     </div>
   )
 }
