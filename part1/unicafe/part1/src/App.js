@@ -13,16 +13,23 @@ const Statistics = (props) =>{
   console.log('average rating:', average)
   let pos = (props.g)/props.size
   console.log('% of positive ratings:', pos)
-  return(
-    <div>
-      <p>good {props.g}</p>
-      <p>neutral {props.n}</p>
-      <p>bad {props.b}</p>
-      <p>all {props.g + props.b + props.n}</p>
-      <p>average {average}</p>
-      <p>positive {pos*100} %</p>
-    </div>
-  )
+  let res = ''
+  if(props.g>0 || props.n>0 || props.g>0){
+    res = (
+      <div>
+        <p>good {props.g}</p>
+        <p>neutral {props.n}</p>
+        <p>bad {props.b}</p>
+        <p>all {props.g + props.b + props.n}</p>
+        <p>average {average}</p>
+        <p>positive {pos*100} %</p>
+      </div>
+    )
+  }
+  else{
+    res = <h2>No feedback given</h2>
+  }
+  return res
 }
 
 const App = () => {
