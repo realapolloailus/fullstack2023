@@ -8,15 +8,21 @@ const Display = props => <h1>{props.value}</h1>
   </button>
 )*/
 
-const Average = (props) =>{
+const Statistics = (props) =>{
   let average = (1*props.g + 0*props.n + (-1)*props.b)/props.size
   console.log('average rating:', average)
-  return <p>average {average}</p>
-}
-
-const Positive = (props) =>{
-  let pos = (props.numGood)/props.size
-  return <p>positive {pos*100} %</p>
+  let pos = (props.g)/props.size
+  console.log('% of positive ratings:', pos)
+  return(
+    <div>
+      <p>good {props.g}</p>
+      <p>neutral {props.n}</p>
+      <p>bad {props.b}</p>
+      <p>all {props.g + props.b + props.n}</p>
+      <p>average {average}</p>
+      <p>positive {pos*100} %</p>
+    </div>
+  )
 }
 
 const App = () => {
@@ -52,12 +58,7 @@ const App = () => {
       <button onClick={handleBad}>bad</button>
 
       <Display value = 'statistics'/>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {good+bad+neutral}</p>
-      <Average g={good} n={neutral} b={bad} size={bad+good+neutral}/>
-      <Positive numGood={good} size={bad+good+neutral}/>
+      <Statistics g={good} n={neutral} b={bad} size={good+neutral+bad}/>
     </div>
   )
 }
