@@ -10,27 +10,37 @@ const Button = (props) => (
 
 const StatisticLine = (props)=>{
   let res = ''
+  let res2 = ''
   let text = props.text
   if(text==='good'){
-    res = <p>good {props.value}</p>
+    res = <td>good</td>
+    res2 = <td>{props.value}</td>
   }
   else if(text==='neutral'){
-    res = <p>neutral {props.value}</p>
+    res = <td>neutral</td>
+    res2 = <td>{props.value}</td>
   }
   else if(text==='bad'){
-    res = <p>bad {props.value}</p>
+    res = <td>bad</td>
+    res2 = <td>{props.value}</td>
   }
   else if(text==='all'){
-    res = <p>all {props.value}</p>
+    res = <td>all</td>
+    res2 = <td>{props.value}</td>
   }
   else if(text==='average'){
-    res = <p>average {props.value}</p>
+    res = <td>average</td>
+    res2 = <td>{props.value}</td>
   }
   else if(text==='positive'){
-    res = <p>positive {props.value} %</p>
+    res = <td>positive</td>
+    res2 = <td>{props.value}</td>
   }
   return(
-    <div>{res}</div>
+    <tr>
+      <td>{res}</td>
+      <td>{res2}</td>
+    </tr>
   )
 }
 
