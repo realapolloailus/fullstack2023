@@ -2,10 +2,10 @@ import React from 'react'
 
 const Person = ({person, deletePerson}) =>
 
-    <p>
+    <ul className='person'>
         {person.name} {person.number}
         <button onClick = { () => deletePerson(person.id) }>Delete</button>
-    </p>
+    </ul>
 
 
 

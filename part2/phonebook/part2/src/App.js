@@ -4,12 +4,14 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [notif, setNotif] = useState(null)
   
   useEffect(() => {
     console.log('effect:');
@@ -33,7 +35,12 @@ const App = () => {
     const findDuplicateNumber = persons.find(person => person.number===newNumber)
 
     if(findDuplicateName && findDuplicateNumber ){
-      window.alert(`The name ${newName} has already been added to the phonebook with this number.`)
+      //window.alert(`The name ${newName} has already been added to the phonebook with this number.`)
+      setNotif({
+        text: `The name ${newName} has already been added to the phonebook with this number.`,
+        type: 'error'
+      })
+      setTimeout(() => {setNotif(null)}, 5000)
       console.log('found a duplicate name: ', newName);
     } // ends the case where both credentials are the same.
 
@@ -50,12 +57,31 @@ const App = () => {
                   ? p
                   : returnedPerson         
                  ) )
+                setNotif({
+                  text: `Updated ${findDuplicateName.name}'s number.`,
+                  type: 'notification'
+                })
+                setTimeout(() => setNotif(null), 5000) 
             })
+            .catch(error => setPersons(
+              persons
+                  .filter(person => person.name !== findDuplicateName.name)))
+              setNotif({
+                  text: `${findDuplicateName.name} has already been deleted from the phonebook.`,
+                  type: 'error'
+                })
+              setTimeout(() => {setNotif(null)}, 5000)
         }
+
       }
 
     else if(!findDuplicateName && findDuplicateNumber){
-      window.alert(`The number ${newNumber} has already been added to the phonebook under a different name.`)
+      //window.alert(`The number ${newNumber} has already been added to the phonebook under a different name.`)
+      setNotif({
+        text: `The number ${newNumber} has already been added to the phonebook under a different name.`,
+        type: 'error'
+      })
+      setTimeout(() => {setNotif(null)}, 5000)
       console.log('found a duplicate number', newNumber);
     }
 
@@ -64,14 +90,26 @@ const App = () => {
         personService
           .create(personObject)
           .then(returnedPerson =>{
-            const copy = [...persons]
-            setPersons(copy.concat(returnedPerson))
-            setNewName('')
-            setNewNumber('')
-            console.log('contents of persons:', copy);
+            //const copy = [...persons]
+            setPersons(persons.concat(returnedPerson))
+
           })
+            .catch(error => {
+              setNotif({
+                text: error.response.data.error,
+                type: 'error'
+              })
+              setTimeout(() => {setNotif(null)}, 5000)
+            })
+        setNotif({
+          text: `${personObject.name} had been added.`,
+          type: 'notification'
+        })
+        setTimeout(() => {setNotif(null)}, 5000)
     }
-    
+    setNewName('')
+    setNewNumber('')
+    console.log('contents of persons:', persons);
   }
 
   const deletePerson = (id) =>{
@@ -87,6 +125,11 @@ const App = () => {
             : returnedPerson)
         })
       setPersons( persons.filter(p => p.id!==id) )
+      setNotif({
+        text: `Deleted ${person.name} from the phonebook.`,
+        type: 'notification'
+      })
+      setTimeout(()=> {setNotif(null)}, 5000)
       
     }
   }
@@ -94,6 +137,8 @@ const App = () => {
   return (
     <div>
     <h2>Phonebook</h2>
+
+    <Notification notif = {notif}/>
 
     <Filter setFilter={setFilter} />
 
