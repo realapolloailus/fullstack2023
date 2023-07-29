@@ -2,12 +2,17 @@ import React from 'react'
 import Person from './Person'
 
 const Persons = ({filter, persons}) =>{
-    const personsAfterFilter = (filter === '') ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+    const personsAfterFilter = (
+        filter === '' 
+            ? persons 
+            : persons.filter((person) => 
+                person.name.toLowerCase().includes(filter.toLowerCase()))
+    )
 
     return(
-        <>
-            {personsAfterFilter.map( person => <Person person={person} /> )}
-        </>
+        <div>
+            {personsAfterFilter.map( person => <Person key={person.id} person={person}/> )}
+        </div>
     )
 }
 

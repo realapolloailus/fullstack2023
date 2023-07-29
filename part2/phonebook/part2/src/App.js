@@ -1,19 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [ filter, setFilter ] = useState('')
+  
+  useEffect(() => {
+    console.log('effect:');
+    axios
+      .get('http://localhost:3001/persons')
+      .then((response) => {
+        console.log('promise fulfilled!');
+        setPersons(response.data); 
+      });
+  }, []);
+  
 
   const addPerson = (event) =>{
     event.preventDefault()
     const personObject ={
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length+1
     }
     const findDuplicateName = persons.find(person => person.name===newName)
     const findDuplicateNumber = persons.find(person => person.number===newNumber)
@@ -26,11 +39,15 @@ const App = () => {
       console.log('found a duplicate number', newNumber);
     }
     else{
-      const copy = [...persons]
-      setPersons(copy.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      console.log('contents of persons:', copy);
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then( response => {
+          const copy = [...persons]
+          setPersons(copy.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+          console.log('contents of persons:', copy);
+        } )
     }
     
   }
