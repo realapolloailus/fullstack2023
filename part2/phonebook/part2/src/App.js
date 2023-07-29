@@ -62,6 +62,23 @@ const App = () => {
     
   }
 
+  const deletePerson = (id) =>{
+    const person = persons.find( p => p.id === id)
+    const confirm = window.confirm(`Are you sure you want to delete ${person.name} from the phonebook?`)
+
+    if (confirm){
+      personService
+        .deleteEntry(id)
+        .then( returnedPerson => {
+          persons.map( p => p.id !== id 
+            ? person
+            : returnedPerson)
+        })
+      setPersons( persons.filter(p => p.id!==id) )
+      
+    }
+  }
+
   return (
     <div>
     <h2>Phonebook</h2>
@@ -74,7 +91,7 @@ const App = () => {
 
     <h3>Numbers</h3>
 
-    <Persons  filter={filter} persons={persons}/>
+    <Persons  filter={filter} persons={persons} deletePerson={deletePerson}/>
   </div>
   )
 }
