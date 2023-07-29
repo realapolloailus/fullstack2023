@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -39,7 +40,7 @@ const App = () => {
       console.log('found a duplicate number', newNumber);
     }
     else{
-      axios
+      /*axios
         .post('http://localhost:3001/persons', personObject)
         .then( response => {
           const copy = [...persons]
@@ -47,7 +48,16 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           console.log('contents of persons:', copy);
-        } )
+        } )*/
+        personService
+          .create(personObject)
+          .then(returnedPerson =>{
+            const copy = [...persons]
+            setPersons(copy.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+            console.log('contents of persons:', copy);
+          })
     }
     
   }
