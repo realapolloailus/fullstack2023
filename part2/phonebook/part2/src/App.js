@@ -31,24 +31,36 @@ const App = () => {
     }
     const findDuplicateName = persons.find(person => person.name===newName)
     const findDuplicateNumber = persons.find(person => person.number===newNumber)
-    if(findDuplicateName){
-      window.alert(`The name ${newName} has already been added to the phonebook.`)
+
+    if(findDuplicateName && findDuplicateNumber ){
+      window.alert(`The name ${newName} has already been added to the phonebook with this number.`)
       console.log('found a duplicate name: ', newName);
-    }
-    else if(findDuplicateNumber){
-      window.alert(`The number ${newNumber} has already been added to the phonebook.`)
+    } // ends the case where both credentials are the same.
+
+    else if(findDuplicateName && !findDuplicateNumber){
+
+        const confirmUpdate = window.confirm(`Are you sure you want to update ${newName}'s number to be ${newNumber}?`)
+        if(confirmUpdate){
+          const personUpdate = {...findDuplicateName, number:newNumber}
+          personService
+            .update(findDuplicateName.id, personUpdate)
+            .then( returnedPerson => {
+              setPersons( persons.map( 
+                p => p.id !== findDuplicateName.id
+                  ? p
+                  : returnedPerson         
+                 ) )
+            })
+        }
+      }
+
+    else if(!findDuplicateName && findDuplicateNumber){
+      window.alert(`The number ${newNumber} has already been added to the phonebook under a different name.`)
       console.log('found a duplicate number', newNumber);
     }
+
     else{
-      /*axios
-        .post('http://localhost:3001/persons', personObject)
-        .then( response => {
-          const copy = [...persons]
-          setPersons(copy.concat(response.data))
-          setNewName('')
-          setNewNumber('')
-          console.log('contents of persons:', copy);
-        } )*/
+
         personService
           .create(personObject)
           .then(returnedPerson =>{
