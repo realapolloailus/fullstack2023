@@ -35,14 +35,13 @@ const App = () => {
     const findDuplicateNumber = persons.find(person => person.number===newNumber)
 
     if(findDuplicateName && findDuplicateNumber ){
-      //window.alert(`The name ${newName} has already been added to the phonebook with this number.`)
       setNotif({
         text: `The name ${newName} has already been added to the phonebook with this number.`,
         type: 'error'
       })
       setTimeout(() => {setNotif(null)}, 5000)
       console.log('found a duplicate name: ', newName);
-    } // ends the case where both credentials are the same.
+    } 
 
     else if(findDuplicateName && !findDuplicateNumber){
 
@@ -76,7 +75,6 @@ const App = () => {
       }
 
     else if(!findDuplicateName && findDuplicateNumber){
-      //window.alert(`The number ${newNumber} has already been added to the phonebook under a different name.`)
       setNotif({
         text: `The number ${newNumber} has already been added to the phonebook under a different name.`,
         type: 'error'
@@ -90,7 +88,6 @@ const App = () => {
         personService
           .create(personObject)
           .then(returnedPerson =>{
-            //const copy = [...persons]
             setPersons(persons.concat(returnedPerson))
 
           })
