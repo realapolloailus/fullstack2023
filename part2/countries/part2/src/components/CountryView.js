@@ -10,6 +10,8 @@ const CountryView = ({country}) => {
         name,
     }));
     console.log('flag:', country.flag);
+
+    
     return(
         <div>
             <h2> {country.name.common} </h2>

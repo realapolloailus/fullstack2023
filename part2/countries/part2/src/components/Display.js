@@ -27,17 +27,33 @@ const Display = ({filter, handleClick}) =>{
 
         console.log('search filter:', shownCountries);    
 
-    return(
-        <div>
-            {shownCountries.length>10
-                ?   'Too many countries, specify another filter.'
-                :   (
-                        shownCountries.map(country =>(
-                            <Country key={country.name.common} country={country} length={shownCountries.length} handleClick={handleClick}/>
-
-                )))}
-        </div>
-    )
+        return (
+            <div>
+              {shownCountries.length > 10 
+                ? (
+                'Too many countries, specify another filter.'
+              ) : shownCountries.length > 1 
+                ? (
+                shownCountries.map((country) => (
+                  <div key={country.name.common}>
+                    {country.name.common}
+                    <button onClick={handleClick} id={country.name.common}>
+                      show
+                    </button>
+                  </div>
+                ))
+              ) : (
+                shownCountries.map((country) => (
+                  <Country
+                    key={country.name.common}
+                    country={country}
+                    length={shownCountries.length}
+                    handleClick={handleClick}
+                  />
+                ))
+              )}
+            </div>
+          )
 }
 
 export default Display
