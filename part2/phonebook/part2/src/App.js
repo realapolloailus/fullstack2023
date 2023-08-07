@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
 import personService from './services/persons'
 import Notification from './components/Notification'
 
@@ -13,15 +12,16 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
   const [notif, setNotif] = useState(null)
   
+  console.log('About to run useEffect:');
   useEffect(() => {
     console.log('effect:');
-    axios
+    personService
       .getAll()
       .then((response) => {
         console.log('promise fulfilled!');
         setPersons(response.data); 
       });
-  }, []);
+  }, [])
   
 
   const addPerson = (event) =>{

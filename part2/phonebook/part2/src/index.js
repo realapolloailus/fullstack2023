@@ -10,7 +10,7 @@ import axios from 'axios';
     <App />
   </React.StrictMode>
 );*/
-axios.get('http://localhost:3001/persons').then( response => {
+axios.get('/api/persons').then( response => {
   const persons = response.data
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
