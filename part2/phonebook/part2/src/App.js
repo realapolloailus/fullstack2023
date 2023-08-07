@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
 import Notification from './components/Notification'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -12,12 +13,12 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
   const [notif, setNotif] = useState(null)
   
-  console.log('About to run useEffect:');
   useEffect(() => {
     console.log('effect:');
-    personService
-      .getAll()
+    axios
+      .get('/api/persons')
       .then((response) => {
+        console.log('response in useEffect:',response.data);
         console.log('promise fulfilled!');
         setPersons(response.data); 
       });
