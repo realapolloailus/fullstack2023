@@ -40,5 +40,5 @@
   "devDependencies": {
     "json-server": "^0.17.1"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "https://phonebook-backend-aqf2.onrender.com"
 }
