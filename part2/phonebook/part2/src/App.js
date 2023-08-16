@@ -93,6 +93,7 @@ const App = () => {
 
           })
             .catch(error => {
+              console.log("Error in adding person. Error data: ", error);
               setNotif({
                 text: error.response.data.error,
                 type: 'error'
