@@ -101,7 +101,7 @@ const App = () => {
               setTimeout(() => {setNotif(null)}, 5000)
             })
         setNotif({
-          text: `${personObject.name} had been added.`,
+          text: `${personObject.name} has been added.`,
           type: 'notification'
         })
         setTimeout(() => {setNotif(null)}, 5000)
