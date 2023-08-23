@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+    "title": "Day in the Life of Joe Schmoe",
+    "author": "Davey Crockett",
+    "url": "myspace.com/emoblogs-official/dayinthelifeofjoeschmoe",
+    "likes": 39889384
+}
+
