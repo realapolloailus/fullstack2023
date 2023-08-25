@@ -4,69 +4,83 @@ const app = require("../app")
 
 const api = supertest(app)
 
-const Note = require("../models/blog")
-const blog = require("../models/blog")
+const Blog = require("../models/blog")
 
-beforeEach(async () => {  
-    await Note.deleteMany({})  
-    let noteObject = new Note(blogs[0])  
-    await noteObject.save()  
-    noteObject = new Note(blogs[1])  
-    await noteObject.save()
-})
 
 const blogs = [
-    {
-        title: "Day in the Life of Joe Schmoe",
-        author: "Davey Crockett",
-        url: "myspace.com/emoblogs-official/dayinthelifeofjoeschmoe",
-        likes: 3,
-        __v: 0
-    },
-    {
-      title: "React patterns",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
-      likes: 7,
+  {
+      title: "Day in the Life of Joe Schmoe",
+      author: "Davey Crockett",
+      url: "myspace.com/emoblogs-official/dayinthelifeofjoeschmoe",
+      likes: 3,
       __v: 0
-    },
-    {
-      title: "Go To Statement Considered Harmful",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-      likes: 5,
-      __v: 0
-    },
-    {
-      title: "Canonical string reduction",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-      likes: 12,
-      __v: 0
-    },
-    {
-      title: "First class tests",
-      author: "Robert C. Martin",
-      url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-      likes: 10,
-      __v: 0
-    },
-    {
-      title: "TDD harms architecture",
-      author: "Robert C. Martin",
-      url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-      likes: 0,
-      __v: 0
-    },
-    {
-      title: "Type wars",
-      author: "Robert C. Martin",
-      url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-      likes: 2,
-      __v: 0
-    }  
-  ]
+  },
+  {
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 7,
+    __v: 0
+  },
+  {
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 5,
+    __v: 0
+  },
+  {
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 12,
+    __v: 0
+  },
+  {
+    title: "First class tests",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    likes: 10,
+    __v: 0
+  },
+  {
+    title: "TDD harms architecture",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+    __v: 0
+  },
+  {
+    title: "Type wars",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    likes: 2,
+    __v: 0
+  }  
+]
 
+beforeEach(async () => {  
+    await Blog.deleteMany({})  
+    
+    //let blogObject = new Blog(blogs[0])  
+    const blogObject = blogs.map(b => new Blog({
+      title: b.title,
+      author: b.author,
+      url: b.url,
+      likes: b.likes ? b.likes : 0
+    }))
+    //await blogObject.save()  
+    //blogObject = new Blog(blogs[1])  
+    for(let i = 0; i<blogObject.length; i++){
+      
+      await blogObject[i].save()
+    }
+})
+
+const retrieveBlogs = async () =>{ //helper function to retrieve blogs from db
+  const blogsFound = await Blog.find({})
+  return blogsFound.map(b => b.toJSON())
+}
 
 describe("GET request for blogs API:", () => {
 
@@ -121,6 +135,27 @@ describe("Verify that POST requests work as intended:", () =>{
       .post("/api/blogs")
       .send(blogToAdd)
       .expect(201)  //expect successful addition
+  })
+
+  test("that a new entry with 0 likes gets added successfully", async() =>{
+    const blogToAdd ={
+      title: "0 likes :(",
+      author: "Lou Surr",
+      url: "www.ihavenofriends.com",
+    }
+
+    await api
+      .post("/api/blogs")
+      .send(blogToAdd)
+      .expect(201)
+  })
+})
+
+describe("Check that posts with 0 likes exist", () =>{
+  test("that there are posts with no likes in the database", async()=>{
+    const blogsToInspect = retrieveBlogs()
+    const numLikes = blogsToInspect.map(b => b.likes)
+    expect(numLikes).toContain(0)
   })
 })
 
