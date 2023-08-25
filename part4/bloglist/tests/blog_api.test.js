@@ -5,6 +5,7 @@ const app = require("../app")
 const api = supertest(app)
 
 const Note = require("../models/blog")
+const blog = require("../models/blog")
 
 beforeEach(async () => {  
     await Note.deleteMany({})  
@@ -97,6 +98,30 @@ describe("GET request for blogs API:", () => {
           "Canonical string reduction"
         )
       }, 100000)*/
+})
+
+describe("Check that each blog has an ID", () => {
+    test("that database uses 'id' instead of '_id'", async() =>{
+        const response = await api
+            .get("/api/blogs")
+        expect(response.body[0].id).toBeDefined()
+    })
+})
+
+describe("Verify that POST requests work as intended:", () =>{
+  test("that new entires get added successfully", async() =>{
+    const blogToAdd ={
+      title: "Test blog",
+      author: "Apollo Ailus",
+      url: "www.worldwideweb.com",
+      likes: 4,
+    }
+
+    await api
+      .post("/api/blogs")
+      .send(blogToAdd)
+      .expect(201)  //expect successful addition
+  })
 })
 
 
