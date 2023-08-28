@@ -1,0 +1,8 @@
+PUT http://localhost:3003/api/blogs/64e8b048fa54afc8ef3c7463 
+Content-Type: application/json
+
+{
+    "title": "Day in the Life of Joe Schmoe [Updated 2023]",
+    "url": "https://myspace.com/emoblogs-official/dayinthelifeofjoeschmoe",
+    "likes": 6
+}

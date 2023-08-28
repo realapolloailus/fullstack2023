@@ -103,11 +103,11 @@ describe("Verify that GET requests work as intended:", () => {
       expect(response.body[0].id).toBeDefined()
   })
 
-  /*test("that there are posts with no likes in the database", async()=>{
-    const blogsToInspect = retrieveBlogs()
+  /test("that there are posts with no likes in the database", async()=>{
+    const blogsToInspect = await retrieveBlogs()
     const numLikes = blogsToInspect.map(b => b.likes)
     expect(numLikes).toContain(0)
-  })*/
+  })
 })
 
 describe("Verify that POST requests work as intended:", () =>{
@@ -149,6 +149,20 @@ describe("Verify that POST requests work as intended:", () =>{
       .post("/api/blogs")
       .send(blogToAdd)
       .expect(400)
+  })
+})
+
+describe("Verify that DELETE requests work as intended:", ()=>{
+  test("that a blog can be deleted from the database", async()=>{
+    const blogsInDB = await retrieveBlogs()
+    const toDelete = blogsInDB[0]
+    
+    await api
+      .delete(`/api/blogs/${toDelete.id}`)
+      .expect(204)
+
+    const blogsNow = await retrieveBlogs()
+    expect(blogsNow).not.toContain(toDelete.title)
   })
 })
 

@@ -71,3 +71,15 @@ Content-Type: application/json
     "likes": 2
   }  
 
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "test blog",
+    "author": "me",
+    "url": "test.com",
+    "likes": 1
+  }  
+
