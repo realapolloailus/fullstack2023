@@ -1,4 +1,6 @@
 const logger = require("./logger")
+const User = require("../models/user")
+const jwt = require("jsonwebtoken")
 
 const requestLogger = (request, response, next) => {
 	logger.info("Method:", request.method)
@@ -20,12 +22,47 @@ const errorHandler = (error, request, response, next) => {
 	} else if (error.name === "ValidationError") {
 		return response.status(400).json({ error: error.message })
 	}
+	else if (error.name === "JsonWebTokenError") {
+		return response.status(401).json({ error: "invalid token" })
+	}
 
 	next(error)
 }
 
+
+const getToken = (request, response, next)=>{
+	const auth = request.get("authorization")
+  
+	if ( (auth) && auth.toLowerCase().startsWith("bearer ")) {
+		const token = auth.substring(7)
+  
+		request.token = token
+	} 
+	else {
+		request.token = null
+	}
+	next()
+  }
+
+  const getUser = async(request, response, next)=>{
+	if (!request.token) {
+		request.user = null
+	} else {
+		// eslint-disable-next-line no-undef
+		const verifiedToken = jwt.verify(request.token, process.env.SECRET)
+		if ( !verifiedToken.id ) {
+			request.user = null
+		} 
+		else {
+			request.user = await User.findById(verifiedToken.id)
+		}
+	}
+	next()
+  }
 module.exports = {
 	requestLogger,
 	unknownEndpoint,
-	errorHandler
+	errorHandler,
+	getToken,
+	getUser
 }

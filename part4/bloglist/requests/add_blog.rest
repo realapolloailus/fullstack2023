@@ -83,3 +83,15 @@ Content-Type: application/json
     "likes": 1
   }  
 
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/application/json
+
+{
+  "title": "How to add users to your blog application",
+  "author": "Tyler Childers",
+  "url": "unknown",
+  "user": "64edc73edb8aa0f3004c5b5e", 
+  "likes": 4
+}
+

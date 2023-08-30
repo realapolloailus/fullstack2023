@@ -1,0 +1,32 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "realmichaeljackson",
+    "name": "Michael Jackson",
+    "password": "jackson5"
+}
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "thomasGeronimoReal",
+    "name": "Tom Forty-Nine",
+    "password": "tom49"
+}
+
+###
+
+DELETE http://localhost:3003/api/users/64edcbd141104db23fc93729
+
