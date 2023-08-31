@@ -35,21 +35,23 @@ const getToken = (request, response, next)=>{
   
 	if ( (auth) && auth.toLowerCase().startsWith("bearer ")) {
 		const token = auth.substring(7)
-  
-		request.token = token
+		logger.info("Token: ", token)
+		//request.token = token
+		request["token"] = token
 	} 
-	else {
-		request.token = null
-	}
+	/*else {
+		request["token"] = null
+	}*/
 	next()
   }
 
   const getUser = async(request, response, next)=>{
-	if (!request.token) {
+	if (!request.token || !request["token"]) {
 		request.user = null
 	} else {
 		// eslint-disable-next-line no-undef
 		const verifiedToken = jwt.verify(request.token, process.env.SECRET)
+		logger.info("Token: ", verifiedToken)
 		if ( !verifiedToken.id ) {
 			request.user = null
 		} 
