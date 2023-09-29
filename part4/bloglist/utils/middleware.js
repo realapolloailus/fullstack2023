@@ -30,8 +30,8 @@ const errorHandler = (error, request, response, next) => {
 }
 
 
-const getToken = (request, response, next)=>{
-	const auth = request.get("authorization")
+const tokenExtractor = async(request, response, next)=>{
+	const auth = await request.get("authorization")
   
 	if ( (auth) && auth.toLowerCase().startsWith("bearer ")) {
 		const token = auth.substring(7)
@@ -39,21 +39,25 @@ const getToken = (request, response, next)=>{
 		//request.token = token
 		request["token"] = token
 	} 
-	/*else {
+	else {
 		request["token"] = null
-	}*/
+	}
 	next()
   }
 
   const getUser = async(request, response, next)=>{
-	if (!request.token || !request["token"]) {
+	console.log(request.token)
+	console.log(request["token"])
+	if (!request.token && !request["token"]) {
 		request.user = null
+		return response.status(401).json({error: "Error: token missing"})
 	} else {
 		// eslint-disable-next-line no-undef
 		const verifiedToken = jwt.verify(request.token, process.env.SECRET)
 		logger.info("Token: ", verifiedToken)
 		if ( !verifiedToken.id ) {
 			request.user = null
+			return response.status(401).json({error: "Error: invalid token"})
 		} 
 		else {
 			request.user = await User.findById(verifiedToken.id)
@@ -65,6 +69,6 @@ module.exports = {
 	requestLogger,
 	unknownEndpoint,
 	errorHandler,
-	getToken,
+	getToken: tokenExtractor,
 	getUser
 }

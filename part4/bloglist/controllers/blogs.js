@@ -2,13 +2,13 @@
 const blogsRouter = require("express").Router()
 const Blog = require("../models/blog")
 const User = require("../models/user")
-
+const middleware = require("../utils/middleware")
 const jwt = require("jsonwebtoken")
 
 const getTokenFrom = request => {
 	const authorization = request.get("authorization")
-	if (authorization && authorization.startsWith("Bearer ")) {
-		return authorization.replace("Bearer ", "")
+	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+		return authorization.substring(7)
 	}
 	return null
   }
@@ -20,30 +20,43 @@ blogsRouter.get("/", async(request, response) => {
 	response.json(blogs.map((b) => b.toJSON()))
 })
 
-blogsRouter.post("/", async(request, response, next) => {
-	const body = request.body
-	const verifiedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+blogsRouter.get("/:id", async(request, response) => {
+	const blogs = await Blog
+		.findById(request.params.id)
+		if(blog){
+			response.json(blog.toJSON())
+		}
+		else{
+			response.status(404).end
+		}
+})
 
-	if (!getTokenFrom(request) || !decodedToken.id) {
+blogsRouter.post("/", async(request, response) => {
+	const body = request.body
+	if (!body.title || !body.url) {
+		return response.status(400).send({ error: "Error: title or url is missing." })
+	}
+	const user = request.user
+	const verifiedToken = jwt.verify(request.token, process.env.SECRET)
+	console.log(verifiedToken)
+	if (!request.token || !verifiedToken.id) {
 		return response.status(401).json({error: "Error: token is invalid or missing!"})
 	}
+	//const user = await User.findById(verifiedToken.id)
 
-	//const user = request.user]
 	const blog = new Blog({
 		title: body.title,
 		author: body.author,
 		url: body.url,
-		user: user,
-		likes: body.likes
+		user: user._id,
+		likes: 0
 	})
-	const user = await User.findById(verifiedToken.id)
 	if(!user){
-		return response.status(401).json({error: "Error: token is invalid or missing!"})
+		return response.status(401).json({error: "Error: user not found; token is potentially invalid or missing!"})
 	}
 
-	if (!blog.title || !blog.url) {
-		return response.status(400).send({ error: "Error: title or url is missing." })
-	}
+		console.log(body.title)
+		console.log(body.url)
 
 	if(!blog.likes){ blog.likes = 0 }
 	
@@ -54,8 +67,8 @@ blogsRouter.post("/", async(request, response, next) => {
 })
 
 blogsRouter.delete("/:id", async(request, response)=>{
-	const verifiedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-	if (!getTokenFrom(request) || !decodedToken.id) {
+	const verifiedToken = jwt.verify(request.token, process.env.SECRET)
+	if (!request.token || !verifiedToken.id) {
 		return response.status(401).json({error: "Error: token is invalid or missing!"})
 	}
 
@@ -65,7 +78,7 @@ blogsRouter.delete("/:id", async(request, response)=>{
 		return response.status(204).end()
 	}
 		//const user = request.user
-		if(blog.user.toString() === decodedToken.id.toString()){
+		if(blog.user.toString() === verifiedToken.id.toString()){
 			//await Blog.findByIdAndRemove(request.params.id)
 			await blog.remove()
 			user.blogs = user.blogs.filter(b => b.id.toString() !== request.params.id.toString())

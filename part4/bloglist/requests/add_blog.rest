@@ -86,7 +86,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs 
 Content-Type: application/application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5c2VybmFtZSI6Im1sdXVra2FpIiwiaW
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlYWxtaWNoYWVsamFja3NvbiIsImlkIjoiNjRmNDQ5ODU5YmI5Zjk1MDJlNzBmZjdiIiwiaWF0IjoxNjk1OTkzMTY3LCJleHAiOjE2OTYwMDAzNjd9.u06qyZD_1aJ1vOC0p3LlvkGofpLpiZH0BaVoclDitFc
 
 {
   "title": "How to add users to your blog application",
