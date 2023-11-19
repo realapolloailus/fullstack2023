@@ -2,16 +2,19 @@ const config = require("./utils/config")
 const express = require("express")
 const app = express()
 const cors = require("cors")
+const mongoose = require("mongoose")
+
 const blogsRouter = require("./controllers/blogs")
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const middleware = require("./utils/middleware")
 const logger = require("./utils/logger")
-const mongoose = require("mongoose")
+
 mongoose.set("strictQuery", false)
 
-
-
 //const Blog = mongoose.model('Blog', blogSchema)
-logger.info("env password:", config.MONGODB_URI)
+//logger.info("env password:", config.MONGODB_URI)
+
 const mongoUrl = config.MONGODB_URI
 logger.info("connecting to", mongoUrl)
 
@@ -29,6 +32,8 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use("/api/blogs", blogsRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
