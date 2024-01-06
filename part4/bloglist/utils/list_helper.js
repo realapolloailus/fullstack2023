@@ -3,7 +3,6 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-	//return blogs.reduce( (totalLikes, b) => totalLikes+b.likes, 0)
 	let initVal = 0
 	return blogs.length === 0
 		? 0
@@ -11,13 +10,6 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-	/*const sortedBlogs = blogs.sort( (a, b) => a.likes > b.likes ? -1 : 1 )
-	const mostLiked = sortedBlogs[0]
-	return{
-		"title": mostLiked.title,
-		"author": mostLiked.author,
-		"likes": mostLiked.likes
-	}*/
 	let maxVal = 0
 	const helper=(prev, curr)=>{
 		maxVal = Math.max(prev, curr)

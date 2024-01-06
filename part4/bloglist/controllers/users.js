@@ -1,8 +1,8 @@
 const usersRouter = require("express").Router()
 const User = require("../models/user")
-require("dotenv").config()
-
 const bcrypt = require("bcrypt")
+
+require("dotenv").config()
 
 usersRouter.get("/", async(request, response)=>{
     const users = await User

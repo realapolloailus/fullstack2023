@@ -1,7 +1,7 @@
 const blogsRouter = require("express").Router()
 const middleware = require("../utils/middleware")
 const Blog = require("../models/blog")
-require('dotenv').config()
+require("dotenv").config()
 
 blogsRouter.get("/", async(request, response) => {
 	const blogs = await Blog
@@ -20,7 +20,6 @@ blogsRouter.get("/:id", async(request, response)=>{
 })
 
 blogsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async(request, response) => {
-	//const blog = new Blog(request.body)
 	const body = request.body
 
 	if(!body.title || !body.url){
@@ -29,11 +28,6 @@ blogsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
 
 	const user = request.user
 
-	/*blog
-		.save()
-		.then(result => {
-			response.status(201).json(result)
-		})*/
 	
 	const blog = new Blog({
 		title: body.title,
@@ -50,7 +44,7 @@ blogsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
 	response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete("/:id", async(request, response)=>{
+blogsRouter.delete("/:id", middleware.tokenExtractor, middleware.userExtractor, async(request, response)=>{
 	if(!request.user){
 		return response.status(401).json({ error: "Error: token is invalid or missing." })
 	}

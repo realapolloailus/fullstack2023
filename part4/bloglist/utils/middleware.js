@@ -1,7 +1,7 @@
 const logger = require("./logger")
 const jwt = require("jsonwebtoken")
 const User = require("../models/user")
-require("dotenv")
+require("dotenv").config()
 
 const requestLogger = (request, response, next) => {
 	logger.info("Method:", request.method)
@@ -16,7 +16,7 @@ const userExtractor = async (request, response, next) => {
 	if(!request.token || !decodedToken.id){
 		return response.status(401).json({ error: "Error: Missing or invalid token." })
 	}
-	request.user = await User.findByID(decodedToken.id)
+	request.user = await User.findById(decodedToken.id)
 	next()
 }
 

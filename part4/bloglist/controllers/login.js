@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken")
 const loginRouter = require("express").Router()
-const User = require("../models/User")
-require('dotenv').config()
+const User = require("../models/user")
+const bcrypt = require("bcrypt")
 
-const bcrypt = require('bcrypt')
+require("dotenv").config()
 
-loginRouter.get('/', async(request, response)=>{
+loginRouter.post("/", async(request, response)=>{
     const {username, password} = request.body
     const user = await User.findOne({username})
     const passwordCorrect = (user===null)
@@ -13,7 +13,7 @@ loginRouter.get('/', async(request, response)=>{
         : await bcrypt.compare(password, user.passwordHash)
 
     if(!(user && passwordCorrect)){
-        return response.status(401).json({error: 'Error: invalid username or password.'})
+        return response.status(401).json({error: "Error: invalid username or password."})
     }
 
     const userForToken ={

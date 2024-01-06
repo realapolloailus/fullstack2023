@@ -26,10 +26,10 @@ module.exports = {
 		"react"
 	],
 	"rules": {
-		"linebreak-style": [
+		/*"linebreak-style": [
 			"error",
 			"windows"
-		],
+		],*/
 		"quotes": [
 			"error",
 			"double"
