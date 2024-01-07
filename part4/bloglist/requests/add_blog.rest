@@ -86,9 +86,19 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlYWxtaWNoYWVsamFja3NvbiIsImlkIjoiNjRmNDQ5ODU5YmI5Zjk1MDJlNzBmZjdiIiwiaWF0IjoxNzA0NTMwMjIzfQ.X7ET99uUhGLo_CysC0tFN_mWNRQcPdBHSnsqzgiKFpQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyY2hpbGRlcnMxIiwiaWQiOiI2NTlhODk5ODFjMjZmYjkzYzNjYzJkZjQiLCJpYXQiOjE3MDQ2MjY4MzJ9._vOr-R2V3j0p_KmNyVgEmBfM7eCcOlha_-MQqCz3FrM
 
 {
-    "title": "Historia blogi", "author": "Hissa Historioitsija", "url": "Historiallisuus.fi"
+    "title": "Why I Like Big Time Rush", "author": "Tyler Childers", "url": "bigtimerush.fandom.wiki.com"
+
+}
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyY2hpbGRlcnMxIiwiaWQiOiI2NTlhODk5ODFjMjZmYjkzYzNjYzJkZjQiLCJpYXQiOjE3MDQ2MjY4MzJ9._vOr-R2V3j0p_KmNyVgEmBfM7eCcOlha_-MQqCz3FrM
+
+{
+    "title": "Accidents Happen", "author": "Trent Balderson", "url": "oops.mybad.com"
 
 }
