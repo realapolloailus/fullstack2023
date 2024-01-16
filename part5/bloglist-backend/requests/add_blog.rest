@@ -1,0 +1,104 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+    "title": "Day in the Life of Joe Schmoe",
+    "author": "Davey Crockett",
+    "url": "myspace.com/emoblogs-official/dayinthelifeofjoeschmoe",
+    "likes": 3
+}
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+    "title": "React patterns",
+    "author": "Michael Chan",
+    "url": "https://reactpatterns.com/",
+    "likes": 7
+}
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+    "title": "Go To Statement Considered Harmful",
+    "author": "Edsger W. Dijkstra",
+    "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    "likes": 5
+  }
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "Canonical string reduction",
+    "author": "Edsger W. Dijkstra",
+    "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    "likes": 12
+  }
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "First class tests",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    "likes": 10
+  }
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "TDD harms architecture",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    "likes": 0
+  }
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "Type wars",
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    "likes": 2
+  }  
+
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+  {
+    "title": "test blog",
+    "author": "me",
+    "url": "test.com",
+    "likes": 1
+  }  
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyY2hpbGRlcnMxIiwiaWQiOiI2NTlhODk5ODFjMjZmYjkzYzNjYzJkZjQiLCJpYXQiOjE3MDQ2MjY4MzJ9._vOr-R2V3j0p_KmNyVgEmBfM7eCcOlha_-MQqCz3FrM
+
+{
+    "title": "Why I Like Big Time Rush", "author": "Tyler Childers", "url": "bigtimerush.fandom.wiki.com"
+
+}
+
+###
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR5bGVyY2hpbGRlcnMxIiwiaWQiOiI2NTlhODk5ODFjMjZmYjkzYzNjYzJkZjQiLCJpYXQiOjE3MDU0MTM5ODh9.Of9M9MWLS0MQ2P1hNCvv60hq1ZRMxo_nPh_55W0MN30
+
+{
+    "title": "Accidents Happen", "author": "Trent Balderson", "url": "oops.mybad.com"
+
+}
